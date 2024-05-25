@@ -23,6 +23,8 @@ void main() {
 			
 			case 2:
 				printf("****Inclusão de dados****\n\n");
+				printf("preciso incluir os dados de um jogador");
+			
 			break;
 			
 			case 3:
