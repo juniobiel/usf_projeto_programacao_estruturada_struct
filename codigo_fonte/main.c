@@ -39,6 +39,10 @@ void main() {
 		{
 			case 1:
 				printf("****Exibir todos os jogadores****\n\n");
+				exibirJogadores();
+				printf("Digite algo para voltar ao menu\n\n");
+				getche();
+				system("cls");
 			break;
 			
 			case 2:
