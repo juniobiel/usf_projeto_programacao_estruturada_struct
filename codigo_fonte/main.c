@@ -2,9 +2,13 @@
 #include <stdlib.h>
 #include <locale.h>
 #include <time.h>
+#include <string.h>
 
 #define MAX_NAME_LENGTH 100
-#define FILENAME "projeto2.csv"
+#define FILE_NAME "projeto2.csv"
+#define TEMP_FILENAME "temp.csv"
+#define FILE_READ_PATTERN "%[^;];%[^;];%d;%d;%d;%d;%d;%d\n"
+#define FILE_WRITE_PATTERN "%s;%s;%d;%d;%d;%d;%d;%d\n"
 
 // Definição da estrutura de um jogador da NBA
 typedef struct {
@@ -25,8 +29,8 @@ void excluirJogador(const char *nome);
 void main() {
 	setlocale(LC_ALL, "Portuguese");
 	
-	int Opcao;
-	char jog[100];
+	int Opcao, indiceEnter;
+	char jogador[100];
 	
 	do {
 		Opcao = menu();
@@ -48,9 +52,15 @@ void main() {
 			case 4:
 				exibirJogadores();
 				printf("\nQual jogador você deseja excluir: ");
-				scanf("%99s", jog);
-				excluirJogador(jog);
-				printf("\nJogador excluído com sucesso!");
+				//String com o nome do jogador
+				fflush(stdin);
+				fgets(jogador, sizeof(jogador), stdin);
+				
+				indiceEnter = strcspn(jogador, "\n");
+				
+				jogador[indiceEnter] = '\0';
+				
+				excluirJogador(jogador);
 				sleep(3);
 				system("cls");
 			break;
@@ -84,7 +94,7 @@ int menu(){
 
 // Função para imprimir todos os jogadores do arquivo CSV
 void exibirJogadores() {
-    FILE *file = fopen(FILENAME, "r");
+    FILE *file = fopen(FILE_NAME, "r");
     if (file == NULL) {
         printf("Erro ao abrir o arquivo.\n");
         exit(1);
@@ -94,7 +104,7 @@ void exibirJogadores() {
     int count = 1;
     printf(" Todos os jogadores:\n");
     printf("-------------------------------\n");
-    while (fscanf(file, "%[^;];%[^;];%d;%d;%d;%d;%d;%d\n", player.team, player.name, &player.points, &player.assists, &player.rebounds, &player.steals, &player.blocks, &player.GP) != EOF) {
+    while (fscanf(file, FILE_READ_PATTERN, player.team, player.name, &player.points, &player.assists, &player.rebounds, &player.steals, &player.blocks, &player.GP) != EOF) {
         printf("Jogador %d:\n", count);
         printf("  Nome: %s\n", player.name);
         printf("  Time: %s\n", player.team);
@@ -114,15 +124,16 @@ void exibirJogadores() {
 
 //Função para excluir um jogador
 void excluirJogador(const char *name){
+	
 	//Abre um arquivo csv temporário
-	FILE *tempFile = fopen("temp.csv", "w");
+	FILE *tempFile = fopen(TEMP_FILENAME, "w");
 	//Caso a abertura falhar, exibe essa mensagem de erro
 	if (tempFile == NULL) {
         printf("Erro ao abrir o arquivo temporário\n");
         exit(1);
     }
     //Abre o arquivo csv principal
-    FILE *file = fopen(FILENAME, "r");
+    FILE *file = fopen(FILE_NAME, "r");
 	//Caso a abertura falhar, exibe essa mensagem de erro
 	if (file == NULL) {
         printf("Erro ao abrir o arquivo\n");
@@ -130,19 +141,50 @@ void excluirJogador(const char *name){
     }
     
     jogador player;
+    
+    int count = 0, founded = 0;
+    
     //Ele realiza a leitura de cada jogador, onde caso for diferente do jogador informado na função, irá transcrever no arquivo csv temporário
-    while (fscanf(file, "%[^;];%[^;],%d,%d,%d,%d,%d,%d\n", player.name, player.team, &player.points, &player.assists, &player.rebounds, &player.steals, &player.blocks, &player.GP) != EOF) {
-
-        if (strcmp(player.name, name) != 0) {
-			            
-			fprintf(tempFile, "%[^;];%[^;],%d,%d,%d,%d,%d,%d\n", player.name, player.team, player.points, player.assists, player.rebounds, player.steals, player.blocks, player.GP);
+    while ( fscanf(file,
+		 FILE_READ_PATTERN, 
+		 player.team,
+		 player.name,  
+		 &player.points, 
+		 &player.assists, 
+		 &player.rebounds, 
+		 &player.steals, 
+		 &player.blocks, 
+		 &player.GP) != EOF)
+	{		
+		if (strcmp(player.name, name) != 0) 
+		{          
+			fprintf(tempFile, 
+				FILE_WRITE_PATTERN, 
+				player.team, 
+				player.name, 
+				player.points, 
+				player.assists, 
+				player.rebounds, 
+				player.steals, 
+				player.blocks, 
+				player.GP);
 		}
+		else
+			founded = 1;
     }
+    
+    if(!founded)
+    {
+    	printf("Não existe o jogador %s", name);
+    	return;
+	}
     //Fecha os arquivos csv
     fclose(file);
     fclose(tempFile);
 	//Remove o arquivo csv principalç
-    remove(FILENAME);
+    remove(FILE_NAME);
 	//Renovameia o arquivo csv temporário com o nome do antigo principal
-	rename("temp.csv", FILENAME);
+	rename("temp.csv", FILE_NAME);
+	
+	printf("\nJogador excluído com sucesso!");
 }
