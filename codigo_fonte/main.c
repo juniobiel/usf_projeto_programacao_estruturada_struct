@@ -5,8 +5,8 @@
 #include <string.h>
 
 #define MAX_NAME_LENGTH 100
-#define FILE_NAME "projeto2.csv"
-#define TEMP_FILENAME "temp.csv"
+#define FILE_NAME "codigo_fonte/projeto2.csv"
+#define TEMP_FILENAME "codigo_fonte/temp.csv"
 #define FILE_READ_PATTERN "%[^;];%[^;];%d;%d;%d;%d;%d;%d\n"
 #define FILE_WRITE_PATTERN "%s;%s;%d;%d;%d;%d;%d;%d\n"
 
@@ -173,18 +173,22 @@ void excluirJogador(const char *name){
 			founded = 1;
     }
     
-    if(!founded)
-    {
-    	printf("Não existe o jogador %s", name);
-    	return;
-	}
     //Fecha os arquivos csv
     fclose(file);
     fclose(tempFile);
-	//Remove o arquivo csv principalç
+    
+    if(!founded)
+    {
+    	remove(TEMP_FILENAME);
+    	printf("Não existe o jogador %s", name);
+    	return;
+	}
+    
+	//Remove o arquivo csv principal
     remove(FILE_NAME);
 	//Renovameia o arquivo csv temporário com o nome do antigo principal
-	rename("temp.csv", FILE_NAME);
+	rename(TEMP_FILENAME, FILE_NAME);
+	
 	
 	printf("\nJogador excluído com sucesso!");
 }
