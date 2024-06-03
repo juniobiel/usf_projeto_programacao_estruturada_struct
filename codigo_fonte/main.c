@@ -4,14 +4,24 @@
 #include <time.h>
 
 int menu();
+<<<<<<< Updated upstream
 
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
+=======
+void exibirJogadores();
+void excluirJogador(const char *nome);
+>>>>>>> Stashed changes
 
 void main() {
 	setlocale(LC_ALL, "Portuguese");
 	
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 	int Opcao;
+=======
+	int Opcao, indiceEnter;
+	char jogador_nome[100];
+>>>>>>> Stashed changes
 =======
 	int Opcao, indiceEnter;
 	char jogador_nome[100];
@@ -23,6 +33,7 @@ void main() {
 		switch(Opcao)
 		{
 			case 1:
+<<<<<<< Updated upstream
 				printf("****Dados do banco de dados****\n\n");
 			break;
 			
@@ -33,6 +44,16 @@ void main() {
 			
 			break;
 =======
+=======
+				printf("****Exibir todos os jogadores****\n\n");
+				exibirJogadores();
+				printf("Digite algo para voltar ao menu\n\n");
+				getche();
+				system("cls");
+			break;
+			
+			case 2:
+>>>>>>> Stashed changes
                           {            
 	 printf("****Incluir um jogador****\n\n");
 
@@ -77,9 +98,15 @@ void main() {
                 printf("Digite algo para voltar ao menu\n\n");
                 getche();
                 system("cls");
+<<<<<<< Updated upstream
                 }
                 break;
             
+=======
+                  break;
+                }
+                
+>>>>>>> Stashed changes
              
                  
                      
@@ -87,6 +114,7 @@ void main() {
 				
 				
 		
+<<<<<<< Updated upstream
 >>>>>>> Stashed changes
 			
 			case 3:
@@ -97,6 +125,14 @@ void main() {
 <<<<<<< Updated upstream
 				printf("****Exclusão de dados****\n\n");
 =======
+=======
+			
+			case 3:
+				printf("****Alterar um jogador****\n\n");
+			break;
+			
+			case 4:
+>>>>>>> Stashed changes
 				exibirJogadores();
 				printf("\nQual jogador você deseja excluir: ");
 				//String com o nome do jogador
@@ -110,6 +146,9 @@ void main() {
 				excluirJogador(jogador_nome);
 				sleep(3);
 				system("cls");
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 			break;
 			
@@ -119,7 +158,11 @@ void main() {
 			
 			default:
 				printf("Opção inválida!\n");
+<<<<<<< Updated upstream
 				sleep(3);
+=======
+				sleep(2);
+>>>>>>> Stashed changes
 				system("cls");
 		}
 	} while (Opcao!=5);
@@ -139,4 +182,108 @@ int menu(){
 	scanf("%d", &Opcao);
 	system("cls");
 	return Opcao;
+<<<<<<< Updated upstream
+=======
+}
+
+// Função para imprimir todos os jogadores do arquivo CSV
+void exibirJogadores() {
+    FILE *file = fopen(FILE_NAME, "r");
+    if (file == NULL) {
+        printf("Erro ao abrir o arquivo.\n");
+        exit(1);
+    }
+
+    jogador player;
+    int count = 1;
+    printf(" Todos os jogadores:\n");
+    printf("-------------------------------\n");
+    while (fscanf(file, FILE_READ_PATTERN, player.team, player.name, &player.points, &player.assists, &player.rebounds, &player.steals, &player.blocks, &player.GP) != EOF) {
+        printf("Jogador %d:\n", count);
+        printf("  Nome: %s\n", player.name);
+        printf("  Time: %s\n", player.team);
+        printf("  Estatisticas:\n");
+        printf("  Pontos: %d\n", player.points);
+        printf("  Assistencias: %d\n", player.assists);
+        printf("  Rebotes: %d\n", player.rebounds);
+        printf("  Roubos: %d\n", player.steals);
+        printf("  Tocos: %d\n", player.blocks);
+        printf("  Partidas Jogadas: %d\n", player.GP);
+        printf("\n");
+        count++;
+    }
+
+    fclose(file);
+}
+
+//Função para excluir um jogador
+void excluirJogador(const char *name){
+	
+	//Abre um arquivo csv temporário
+	FILE *tempFile = fopen(TEMP_FILENAME, "w");
+	//Caso a abertura falhar, exibe essa mensagem de erro
+	if (tempFile == NULL) {
+        printf("Erro ao abrir o arquivo temporário\n");
+        exit(1);
+    }
+    //Abre o arquivo csv principal
+    FILE *file = fopen(FILE_NAME, "r");
+	//Caso a abertura falhar, exibe essa mensagem de erro
+	if (file == NULL) {
+        printf("Erro ao abrir o arquivo\n");
+        exit(1);
+    }
+    
+    jogador player;
+    
+    int count = 0, founded = 0;
+    
+    //Ele realiza a leitura de cada jogador, onde caso for diferente do jogador informado na função, irá transcrever no arquivo csv temporário
+    while ( fscanf(file,
+		 FILE_READ_PATTERN, 
+		 player.team,
+		 player.name,  
+		 &player.points, 
+		 &player.assists, 
+		 &player.rebounds, 
+		 &player.steals, 
+		 &player.blocks, 
+		 &player.GP) != EOF)
+	{		
+		if (strcmp(player.name, name) != 0) 
+		{          
+			fprintf(tempFile, 
+				FILE_WRITE_PATTERN, 
+				player.team, 
+				player.name, 
+				player.points, 
+				player.assists, 
+				player.rebounds, 
+				player.steals, 
+				player.blocks, 
+				player.GP);
+		}
+		else
+			founded = 1;
+    }
+    
+    //Fecha os arquivos csv
+    fclose(file);
+    fclose(tempFile);
+    
+    if(!founded)
+    {
+    	remove(TEMP_FILENAME);
+    	printf("Não existe o jogador %s", name);
+    	return;
+	}
+    
+	//Remove o arquivo csv principal
+    remove(FILE_NAME);
+	//Renovameia o arquivo csv temporário com o nome do antigo principal
+	rename(TEMP_FILENAME, FILE_NAME);
+	
+	
+	printf("\nJogador excluído com sucesso!");
+>>>>>>> Stashed changes
 }
