@@ -31,7 +31,7 @@ void main() {
     setlocale(LC_ALL, "Portuguese");
     
     int Opcao, indiceEnter;
-    char jogador[100];
+    char playerName[100];
     
     do {
         Opcao = menu();
@@ -48,16 +48,70 @@ void main() {
             
             case 2:
                 printf("****Incluir um jogador****\n\n");
+
+                jogador novo_jogador;
+
+                printf("Digite o nome do jogador: ");
+                fflush(stdin);
+                scanf("%d", &novo_jogador.name);
+                
+
+                printf("Digite o time do jogador: ");
+                fflush(stdin);
+                scanf("%d", &novo_jogador.team);
+
+                printf("Digite os pontos do jogador: ");
+                scanf("%d", &novo_jogador.points);
+
+                printf("Digite as assistências do jogador: ");
+                scanf("%d", &novo_jogador.assists);
+
+                printf("Digite os rebotes do jogador: ");
+                scanf("%d", &novo_jogador.rebounds);
+
+                printf("Digite os roubos do jogador: ");
+                scanf("%d", &novo_jogador.steals);
+
+                printf("Digite os tocos do jogador: ");
+                scanf("%d", &novo_jogador.blocks);
+
+                printf("Digite as partidas jogadas pelo jogador: ");
+                scanf("%d", &novo_jogador.GP);
+
+                FILE *file = fopen(FILE_NAME, "a");
+                
+                if (file == NULL) {
+                    printf("Erro ao abrir o arquivo.\n");
+                    exit(1);
+                }
+
+                fprintf(file, 
+					FILE_WRITE_PATTERN, 
+					novo_jogador.team, 
+					novo_jogador.name, 
+					novo_jogador.points, 
+					novo_jogador.assists, 
+					novo_jogador.rebounds, 
+					novo_jogador.steals, 
+					novo_jogador.blocks, 
+					novo_jogador.GP);
+					
+                fclose(file);
+
+                printf("Jogador incluído com sucesso!\n");
+                printf("Digite algo para voltar ao menu\n\n");
+                getche();
+                system("cls");
             break;
             
             case 3:
                 printf("****Alterar um jogador****\n\n");
                 printf("Digite o nome do jogador a ser alterado: ");
                 fflush(stdin);
-                fgets(jogador, sizeof(jogador), stdin);
-                indiceEnter = strcspn(jogador, "\n");
-                jogador[indiceEnter] = '\0';
-                alterarJogador(jogador);
+                fgets(playerName, sizeof(playerName), stdin);
+                indiceEnter = strcspn(playerName, "\n");
+                playerName[indiceEnter] = '\0';
+                alterarJogador(playerName);
                 printf("Digite algo para voltar ao menu\n\n");
                 getche();
                 system("cls");
@@ -68,13 +122,13 @@ void main() {
                 printf("\nQual jogador você deseja excluir: ");
                 //String com o nome do jogador
                 fflush(stdin);
-                fgets(jogador, sizeof(jogador), stdin);
+                fgets(playerName, sizeof(playerName), stdin);
                 
-                indiceEnter = strcspn(jogador, "\n");
+                indiceEnter = strcspn(playerName, "\n");
                 
-                jogador[indiceEnter] = '\0';
+                playerName[indiceEnter] = '\0';
                 
-                excluirJogador(jogador);
+                excluirJogador(playerName);
                 sleep(3);
                 system("cls");
             break;
