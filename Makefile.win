@@ -1,6 +1,7 @@
 # Project: Projeto_Struct_NBA
-# Makefile created by Dev-C++ 5.11
+# Makefile created by Dev-C++ 4.9.9.2
 
+<<<<<<< Updated upstream
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
@@ -13,16 +14,32 @@ BIN      = Projeto_Struct_NBA.exe
 CXXFLAGS = $(CXXINCS) 
 CFLAGS   = $(INCS) 
 RM       = rm.exe -f
+=======
+CPP  = g++.exe
+CC   = gcc.exe
+WINDRES = windres.exe
+RES  = 
+OBJ  = codigo_fonte/main.o $(RES)
+LINKOBJ  = codigo_fonte/main.o $(RES)
+LIBS =  -L"C:/Dev-Cpp/lib"  -fmessage-length=0 
+INCS =  -I"C:/Dev-Cpp/include" 
+CXXINCS =  -I"C:/Dev-Cpp/lib/gcc/mingw32/3.4.2/include"  -I"C:/Dev-Cpp/include/c++/3.4.2/backward"  -I"C:/Dev-Cpp/include/c++/3.4.2/mingw32"  -I"C:/Dev-Cpp/include/c++/3.4.2"  -I"C:/Dev-Cpp/include" 
+BIN  = Projeto_Struct_NBA.exe
+CXXFLAGS = $(CXXINCS)   -fmessage-length=0
+CFLAGS = $(INCS)   -fmessage-length=0
+RM = rm -f
+>>>>>>> Stashed changes
 
 .PHONY: all all-before all-after clean clean-custom
 
-all: all-before $(BIN) all-after
+all: all-before Projeto_Struct_NBA.exe all-after
+
 
 clean: clean-custom
 	${RM} $(OBJ) $(BIN)
 
 $(BIN): $(OBJ)
-	$(CC) $(LINKOBJ) -o $(BIN) $(LIBS)
+	$(CC) $(LINKOBJ) -o "Projeto_Struct_NBA.exe" $(LIBS)
 
 codigo_fonte/main.o: codigo_fonte/main.c
 	$(CC) -c codigo_fonte/main.c -o codigo_fonte/main.o $(CFLAGS)
