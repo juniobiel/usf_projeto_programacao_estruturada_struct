@@ -290,12 +290,13 @@ void alterarJogador(const char *name) {
             int option;
             printf("Jogador encontrado. Escolha o campo a ser alterado:\n");
             printf("1. Time\n");
-            printf("2. Pontos\n");
-            printf("3. Assistências\n");
-            printf("4. Rebotes\n");
-            printf("5. Roubos\n");
-            printf("6. Tocos\n");
-            printf("7. Partidas Jogadas\n");
+            printf("2. Nome\n");
+            printf("3. Pontos\n");
+            printf("4. Assistências\n");
+            printf("5. Rebotes\n");
+            printf("6. Roubos\n");
+            printf("7. Tocos\n");
+            printf("8. Partidas Jogadas\n");
             printf("Opção: ");
             scanf("%d", &option);
             getchar(); // Limpar o buffer do newline
@@ -307,26 +308,31 @@ void alterarJogador(const char *name) {
                     player.team[strcspn(player.team, "\n")] = '\0';
                     break;
                 case 2:
+                    printf("Digite o novo nome: ");
+                    fgets(player.name, sizeof(player.name), stdin);
+                    player.name[strcspn(player.name, "\n")] = '\0';
+                    break;
+                case 3:
                     printf("Digite os novos pontos: ");
                     scanf("%d", &player.points);
                     break;
-                case 3:
+                case 4:
                     printf("Digite as novas assistências: ");
                     scanf("%d", &player.assists);
                     break;
-                case 4:
+                case 5:
                     printf("Digite os novos rebotes: ");
                     scanf("%d", &player.rebounds);
                     break;
-                case 5:
+                case 6:
                     printf("Digite os novos roubos: ");
                     scanf("%d", &player.steals);
                     break;
-                case 6:
+                case 7:
                     printf("Digite os novos tocos: ");
                     scanf("%d", &player.blocks);
                     break;
-                case 7:
+                case 8:
                     printf("Digite as novas partidas jogadas: ");
                     scanf("%d", &player.GP);
                     break;
