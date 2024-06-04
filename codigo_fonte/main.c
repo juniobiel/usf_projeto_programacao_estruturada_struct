@@ -53,12 +53,16 @@ void main() {
 
                 printf("Digite o nome do jogador: ");
                 fflush(stdin);
-                scanf("%d", &novo_jogador.name);
-                
+                fgets(novo_jogador.name, sizeof(novo_jogador.name), stdin);
+                indiceEnter = strcspn(novo_jogador.name, "\n");
+             	novo_jogador.name[indiceEnter] = '\0';
+			
 
                 printf("Digite o time do jogador: ");
                 fflush(stdin);
-                scanf("%d", &novo_jogador.team);
+                fgets(novo_jogador.team, sizeof(novo_jogador.team), stdin);
+                indiceEnter = strcspn(novo_jogador.team, "\n");
+                novo_jogador.team[indiceEnter] = '\0';
 
                 printf("Digite os pontos do jogador: ");
                 scanf("%d", &novo_jogador.points);
@@ -105,7 +109,9 @@ void main() {
             break;
             
             case 3:
+            	
                 printf("****Alterar um jogador****\n\n");
+                exibirJogadores();
                 printf("Digite o nome do jogador a ser alterado: ");
                 fflush(stdin);
                 fgets(playerName, sizeof(playerName), stdin);
